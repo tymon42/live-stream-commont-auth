@@ -1,4 +1,6 @@
 # [WIP] live-stream-commont-auth
+I came up with this idea when I want to build a Bilibili third party live interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implement a draf version and it is working well on our tool.  
+Now I am working on open source version which gonna be more Universal.   
 # What's this?  
 It's a kind of authorize solution design for 3rd party app in live streaming platform like Bilibili or Youtube and so on.  
 
