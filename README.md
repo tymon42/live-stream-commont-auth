@@ -1,4 +1,4 @@
-# [WIP] live-stream-commont-auth
+# live-stream-commont-auth
 I came up with this idea when I wanted to build a Bilibili third party live-interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implemented a draft version and it is working well on our tool.  
 Now I am working on open source version which is gonna be more universal.   
 # What's this?  
