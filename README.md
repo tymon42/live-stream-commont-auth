@@ -6,13 +6,22 @@ It's a kind of authorization solution design for 3rd party app in live streaming
 
 You can easily setup a self-host auth service and auth and generate JWT token for your own app. Only registered user on the specific live streaming platform can pass thourgh the auth process.  
 
-# How it work?
-The main idea of the live-stream-commont-auth is capturing on infomation that post by registered user on platform(like bilibili or youtube) only. The infomation must has the uid that represents the perticular user.  
+# How it works?
+The main idea of the live-stream-comment-auth is capturing infomation that post by registered users on platform(like bilibili or youtube) only. The infomation must has the uid that represents the particular user.  
 
-For example, danmu in bilibili live has an excellent data structure for the identity authorzing. It includes bili user's uid and a 20 chars space to convey a message. If a user wants to login to a thired party platform, we could sent the user a verification code in 20 chars and the user should send it to a chose bilibili live room as a danmu. So we shall get a danmu message via a bili's danmu WS connection. And the message contains both the buid and the verification code.  
+For example, danmu in bilibili live has an excellent data structure for the identity authorzing. It includes bili user's uid and a 20 chars space to convey a message. If a user wants to login to a third party platform, we could sent the user a verification code in 20 chars and the user should send it to a chose bilibili live room as a danmu. So we shall get a danmu message via a bili's danmu WS connection. And the message contains both the buid and the verification code.  
 
-We believe that kind of message is safe enough for login action.  
+We believe that kind of message is safe enough for a login action.  
 
 ## Example  
 ### Bilibili
-WIP
+#### Start server
+```
+docker build -f bili-danmu-auth/api/Dockerfile -t bili-danmu-auth-server:latest .
+docker run --rm -it -p 8888:8888 bili-danmu-auth-server:latest
+```
+#### Start worker
+`go run bili-danmu-auth/worker/main.go -r <room_id>`
+
+### Start Swagger web UI
+`docker run --rm -p 8083:8080 -e SWAGGER_JSON=bili-danmu-auth/api/bili-danmu-auth.json -v $PWD:/foo swaggerapi/swagger-ui`
