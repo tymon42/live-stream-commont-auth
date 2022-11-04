@@ -35,8 +35,7 @@ func (l *DanmuAuthSubmitLogic) DanmuAuthSubmit(req *types.SubmitRequest) (resp *
 		return &types.SubmitResponse{}, errors.New("no danmuAuth found")
 	}
 
-	danmuAuth.VerifiedCount++
-	err = l.svcCtx.DanmuAuthDB.Save(l.ctx, danmuAuth)
+	err = l.svcCtx.DanmuAuthDB.SaveVerifiedCount(l.ctx, danmuAuth, danmuAuth.VerifiedCount+1)
 	if err != nil {
 		return nil, err
 	}

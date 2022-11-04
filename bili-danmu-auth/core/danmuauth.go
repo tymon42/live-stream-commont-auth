@@ -22,6 +22,8 @@ type (
 	// AuthStore ...
 	DanmuAuthStore interface {
 		Save(ctx context.Context, danmuAuth *DanmuAuth) error
+		SaveVCode(ctx context.Context, danmuAuth *DanmuAuth, vcode string) error
+		SaveVerifiedCount(ctx context.Context, danmuAuth *DanmuAuth, verifiedCount int) error
 		Delete(ctx context.Context, id uint) error
 		FindByUUIDBuidVCode(ctx context.Context, uuid string, buid uint, vCode string) (*DanmuAuth, error)
 		FindByUUIDBuid(ctx context.Context, uuid string, buid uint) (*DanmuAuth, error)

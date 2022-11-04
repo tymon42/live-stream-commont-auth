@@ -50,6 +50,36 @@ func (s *danmuAuthStore) Save(ctx context.Context, danmuAuth *core.DanmuAuth) er
 	})
 }
 
+func (s *danmuAuthStore) SaveVCode(ctx context.Context, danmuAuth *core.DanmuAuth, vcode string) error {
+	return s.db.Tx(func(tx *db.DB) error {
+		newTx := tx.Update().Model(danmuAuth).Update("v_code", vcode)
+		if newTx.Error != nil {
+			return newTx.Error
+		}
+
+		if newTx.RowsAffected == 0 {
+			return tx.Update().Create(danmuAuth).Error
+		}
+
+		return nil
+	})
+}
+
+func (s *danmuAuthStore) SaveVerifiedCount(ctx context.Context, danmuAuth *core.DanmuAuth, verifiedCount int) error {
+	return s.db.Tx(func(tx *db.DB) error {
+		newTx := tx.Update().Model(danmuAuth).Update("verified_count", verifiedCount)
+		if newTx.Error != nil {
+			return newTx.Error
+		}
+
+		if newTx.RowsAffected == 0 {
+			return tx.Update().Create(danmuAuth).Error
+		}
+
+		return nil
+	})
+}
+
 func (s *danmuAuthStore) Delete(ctx context.Context, id uint) error {
 	return s.db.Tx(func(tx *db.DB) error {
 		return tx.Update().WithContext(ctx).Delete(&core.DanmuAuth{}, id).Error
@@ -59,7 +89,7 @@ func (s *danmuAuthStore) Delete(ctx context.Context, id uint) error {
 func (s *danmuAuthStore) FindByUUIDBuidVCode(ctx context.Context, uuid string, buid uint, vCode string) (*core.DanmuAuth, error) {
 	var danmuAuth core.DanmuAuth
 	_10minAgo := time.Now().Add(-10 * time.Minute)
-	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ? AND v_code = ? AND create_at > ?", uuid, buid, vCode, _10minAgo).Last(&danmuAuth).Error
+	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ? AND v_code = ? AND created_at > ?", uuid, buid, vCode, _10minAgo).Last(&danmuAuth).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}

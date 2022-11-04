@@ -5,6 +5,7 @@ import (
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
+	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/core"
 	"github.com/tymon42/live-stream-commont-auth/vcode"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,16 +33,17 @@ func (l *DanmuAuthAplyLogic) DanmuAuthAply(req *types.ApplyRequest) (resp *types
 		return nil, err
 	}
 	if danmuAuth == nil && err == nil {
-		danmuAuth.Buid = uint(req.Buid)
-		danmuAuth.UUID = req.Client_uuid
-		err = l.svcCtx.DanmuAuthDB.Save(l.ctx, danmuAuth)
+		newDanmuAuth := &core.DanmuAuth{
+			Buid: uint(req.Buid),
+			UUID: req.Client_uuid,
+		}
+		err = l.svcCtx.DanmuAuthDB.Save(l.ctx, newDanmuAuth)
 		if err != nil {
 			return nil, err
 		}
 
-		new_vcode := vcode.GenBiliVCodeWithExtraInfo(danmuAuth.UUID, string(rune(danmuAuth.Buid)), danmuAuth.CreatedAt.Format("2006-01-02 15:04:05"), "vc-", 6)
-		danmuAuth.VCode = new_vcode
-		err = l.svcCtx.DanmuAuthDB.Save(l.ctx, danmuAuth)
+		new_vcode := vcode.GenBiliVCodeWithExtraInfo(req.Client_uuid, string(rune(req.Buid)), newDanmuAuth.CreatedAt.Format("2006-01-02 15:04:05"), "vc-", 6)
+		err = l.svcCtx.DanmuAuthDB.SaveVCode(l.ctx, newDanmuAuth, new_vcode)
 		if err != nil {
 			return nil, err
 		}
