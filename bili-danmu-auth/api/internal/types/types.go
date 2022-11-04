@@ -22,6 +22,7 @@ type StatusRequest struct {
 	Buid        uint64 `form:"buid"`
 	Client_uuid string `form:"client_uuid"`
 	Vcode       string `form:"vcode"`
+	Count       uint64 `form:"count"`
 }
 
 type StatusResponse struct {
