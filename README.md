@@ -1,17 +1,17 @@
 # [WIP] live-stream-commont-auth
-I came up with this idea when I want to build a Bilibili third party live interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implement a draf version and it is working well on our tool.  
-Now I am working on open source version which gonna be more Universal.   
+I came up with this idea when I wanted to build a Bilibili third party live-interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implemented a draft version and it is working well on our tool.  
+Now I am working on open source version which is gonna be more universal.   
 # What's this?  
-It's a kind of authorize solution design for 3rd party app in live streaming platform like Bilibili or Youtube and so on.  
+It's a kind of authorization solution design for 3rd party app in live streaming platform like Bilibili or Youtube and so on.  
 
-You can easy setup a self-host auth service and auth and generate JWT token for your own app. And only registied user on the sepcific live streaming platform can pass thourgh the auth process.  
+You can easily setup a self-host auth service and auth and generate JWT token for your own app. Only registered user on the specific live streaming platform can pass thourgh the auth process.  
 
 # How it work?
-The main idea of live-stream-commont-auth is capture on infomation that post by regiested user on platform(like bilibili or youtube) only. The infomation must has the uid that represent the perticular user.  
+The main idea of the live-stream-commont-auth is capturing on infomation that post by registered user on platform(like bilibili or youtube) only. The infomation must has the uid that represents the perticular user.  
 
-For example, danmu in bilibili live has an excelent data struct for the identity authrozing. It includes bili user's uid and a 20 chars space to convey a message. If we could send the user want login in our platform, we could sent the user a verification code in 20 chars and the user send it to a bilibili live room as a danmu. So we shall get a danmu message via a bili's danmu ws connection. And the message contain both the buid and verification code.  
+For example, danmu in bilibili live has an excellent data structure for the identity authorzing. It includes bili user's uid and a 20 chars space to convey a message. If a user wants to login to a thired party platform, we could sent the user a verification code in 20 chars and the user should send it to a chose bilibili live room as a danmu. So we shall get a danmu message via a bili's danmu WS connection. And the message contains both the buid and the verification code.  
 
-We trust that kind of message is safe enough for login action.  
+We believe that kind of message is safe enough for login action.  
 
 ## Example  
 ### Bilibili
