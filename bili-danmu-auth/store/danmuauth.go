@@ -56,21 +56,10 @@ func (s *danmuAuthStore) Delete(ctx context.Context, id uint) error {
 	})
 }
 
-func (s *danmuAuthStore) FindByUUIDRoomId(ctx context.Context, uuid string, roomId uint) (*core.DanmuAuth, error) {
-	var danmuAuth core.DanmuAuth
-	err := s.db.View().WithContext(ctx).Where("uuid = ? AND room_id = ?", uuid, roomId).First(&danmuAuth).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, nil
-	}
-	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, err
-	}
-	return &danmuAuth, nil
-}
-
 func (s *danmuAuthStore) FindByUUIDBuidVCode(ctx context.Context, uuid string, buid uint, vCode string) (*core.DanmuAuth, error) {
 	var danmuAuth core.DanmuAuth
-	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ? AND v_code = ?", uuid, buid, vCode).Last(&danmuAuth).Error
+	_10minAgo := time.Now().Add(-10 * time.Minute)
+	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ? AND v_code = ? AND create_at > ?", uuid, buid, vCode, _10minAgo).Last(&danmuAuth).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
@@ -95,7 +84,8 @@ func (s *danmuAuthStore) FindByBuidVCode(ctx context.Context, buid uint, VCode s
 
 func (s *danmuAuthStore) FindByUUIDBuid(ctx context.Context, uuid string, buid uint) (*core.DanmuAuth, error) {
 	var danmuAuth core.DanmuAuth
-	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ?", uuid, buid).Last(&danmuAuth).Error
+	_10minAgo := time.Now().Add(-10 * time.Minute)
+	err := s.db.View().WithContext(ctx).Where("uuid = ? AND buid = ? AND created_at > ?", uuid, buid, _10minAgo).Last(&danmuAuth).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}

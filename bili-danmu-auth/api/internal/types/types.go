@@ -26,5 +26,5 @@ type StatusRequest struct {
 }
 
 type StatusResponse struct {
-	Verify_count uint64 `json:"verify_count"`
+	Verify_count int64 `json:"verify_count"`
 }

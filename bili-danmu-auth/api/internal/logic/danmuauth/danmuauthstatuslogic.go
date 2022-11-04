@@ -24,7 +24,24 @@ func NewDanmuAuthStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 }
 
 func (l *DanmuAuthStatusLogic) DanmuAuthStatus(req *types.StatusRequest) (resp *types.StatusResponse, err error) {
-	// todo: add your logic here and delete this line
+	l.Logger.Info("DanmuAuthStatus", req)
 
-	return
+	danmuAuth, err := l.svcCtx.DanmuAuthDB.FindByUUIDBuidVCode(l.ctx, req.Client_uuid, uint(req.Buid), req.Vcode)
+	if err != nil {
+		return nil, err
+	}
+	if danmuAuth == nil && err == nil {
+		return &types.StatusResponse{
+			Verify_count: -1,
+		}, nil
+	}
+	if danmuAuth.VerifiedCount >= int(req.Count) {
+		err = l.svcCtx.DanmuAuthDB.Delete(l.ctx, danmuAuth.ID)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return &types.StatusResponse{
+		Verify_count: int64(danmuAuth.VerifiedCount),
+	}, nil
 }
