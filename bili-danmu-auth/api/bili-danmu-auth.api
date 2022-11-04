@@ -1,0 +1,65 @@
+syntax = "v1"
+
+info (
+	title: bili-danmu-auth
+)
+
+@server(
+	prefix: /danmuauth/v1
+	group: danmuauth
+)
+service danmu-auth {
+	@doc "申请 vcode"
+	@handler DanmuAuthAplyHandler
+	post /apply (ApplyRequest) returns (ApplyResponse)
+	
+	@doc "提交 vcode"
+	@handler DanmuAuthSubmitHandler
+	post /submit (SubmitRequest) returns (SubmitResponse)
+	
+	@doc "获取 danmuAuth 状态"
+	@handler DanmuAuthStatusHandler
+	get /status (StatusRequest) returns (StatusResponse)
+}
+
+type (
+	ApplyRequest {
+		// buid
+		Buid uint64 `json:"buid"`
+		// client_uuid
+		Client_uuid string `json:"client_uuid"`
+	}
+
+	ApplyResponse {
+		// vcode
+		Vcode string `json:"vcode"`
+	}
+)
+
+type (
+	SubmitRequest {
+		// buid
+		Buid uint64 `json:"buid"`
+		// vcode
+		Vcode string `json:"vcode"`
+	}
+
+	SubmitResponse {
+	}
+)
+
+type (
+	StatusRequest {
+		// buid
+		Buid uint64 `form:"buid"`
+		// client_uuid
+		Client_uuid string `form:"client_uuid"`
+		// vcode
+		Vcode string `form:"vcode"`
+	}
+
+	StatusResponse {
+		// verify_count
+		Verify_count uint64 `json:"verify_count"`
+	}
+)
