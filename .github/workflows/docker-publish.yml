@@ -6,18 +6,7 @@ on:
       - "v*.*"
 env:
   IMAGE_NAME: bili-danmu-auth-server #这是您的镜像名
-jobs:
-  get-tags:
-    runs-on: ubuntu-20.04
-    env:
-      TZ: Asia/Shanghai
-    outputs:
-      tags: ${{ steps.set-output-id.outputs.tags }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: set-output
-        id: set-output-id
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}         
+jobs:     
   push-ghcr:
     runs-on: ubuntu-20.04
     env:
@@ -37,6 +26,4 @@ jobs:
           context: .
           file: ./bili-danmu-auth/api/Dockerfile
           push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ needs.get-tags.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest     
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest     
