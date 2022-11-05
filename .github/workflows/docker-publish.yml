@@ -5,7 +5,7 @@ on:
     tags:
       - "v*.*"
 env:
-  IMAGE_NAME: bili-danmu-auth-server #这是您的镜像名
+  IMAGE_NAME: bilidanmuauthserver #这是您的镜像名
 jobs:
   get-tags:
     runs-on: ubuntu-20.04
