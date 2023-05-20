@@ -18,7 +18,7 @@ type danmuAuthStore struct {
 	db *db.DB
 }
 
-func toUpdateParams(danmuAuth *core.DanmuAuth) map[string]interface{} {
+func (d *danmuAuthStore) toUpdateParams(danmuAuth *core.DanmuAuth) map[string]interface{} {
 	return map[string]interface{}{
 		"buid":           danmuAuth.Buid,
 		"uuid":           danmuAuth.UUID,
@@ -27,8 +27,8 @@ func toUpdateParams(danmuAuth *core.DanmuAuth) map[string]interface{} {
 	}
 }
 
-func update(db *db.DB, danmuAuth *core.DanmuAuth) (int64, error) {
-	updates := toUpdateParams(danmuAuth)
+func (d *danmuAuthStore) update(db *db.DB, danmuAuth *core.DanmuAuth) (int64, error) {
+	updates := d.toUpdateParams(danmuAuth)
 	tx := db.Update().Model(danmuAuth).Where("id = ?", danmuAuth.ID).Updates(updates)
 	return tx.RowsAffected, tx.Error
 }
@@ -37,7 +37,7 @@ func (s *danmuAuthStore) Save(ctx context.Context, danmuAuth *core.DanmuAuth) er
 	return s.db.Tx(func(tx *db.DB) error {
 		var rows int64
 		var err error
-		rows, err = update(tx, danmuAuth)
+		rows, err = s.update(tx, danmuAuth)
 		if err != nil {
 			return err
 		}

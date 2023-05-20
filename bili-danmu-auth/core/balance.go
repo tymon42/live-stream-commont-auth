@@ -21,7 +21,7 @@ type (
 		Save(ctx context.Context, balance *Balance) error
 		// FindByBuid returns the balance of the buid
 		FindByBuid(ctx context.Context, buid uint64) (*Balance, error)
-		// Deposit adds amount to the balance by buid
-		Deposit(ctx context.Context, balance *Balance, amount int) error
+		// Charge adds amount to the balance by buid
+		Charge(ctx context.Context, balance *Balance, amount int) error
 	}
 )
