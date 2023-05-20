@@ -24,7 +24,9 @@ func NewDanmuAuthApplyNewVCodeLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNewVCodeRequest) (resp *types.ApplyNewVCodeResponse, err error) {
-	// todo: add your logic here and delete this line
+	l.Logger.Infof("DanmuAuthApplyNewVCode, req: %+v", req)
+
+	// l.svcCtx.DanmuAuthDB.
 
 	return
 }

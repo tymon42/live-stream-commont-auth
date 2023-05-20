@@ -2,8 +2,9 @@
 package types
 
 type ApplyNewVCodeRequest struct {
-	Buid string `path:"buid"`
-	Key  string `form:"key"` // 0 为 devloper 登录, 不可以使用
+	Buid     string `path:"buid"`
+	Key      string `form:"key"` // 0 为 devloper 登录, 不可以使用
+	ClientID string `form:"client_id"`
 }
 
 type ApplyNewVCodeResponse struct {
@@ -19,7 +20,8 @@ type AddOneResponse struct {
 }
 
 type VerifyRequest struct {
-	Vcode string `path:"vcode"`
+	Vcode    string `path:"vcode"`
+	ClientID string `form:"client_id"`
 }
 
 type VerifyResponse struct {

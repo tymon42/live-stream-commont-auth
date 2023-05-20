@@ -51,8 +51,9 @@ service danmu-auth {
 
 type ( // 申请新 vcode, get /vcode/:buid
 	ApplyNewVCodeRequest {
-		Buid string `path:"buid"`
-		Key  string `form:"key"` // 0 为 devloper 登录, 不可以使用
+		Buid     string `path:"buid"`
+		Key      string `form:"key"` // 0 为 devloper 登录, 不可以使用
+		ClientID string `form:"client_id"`
 	}
 
 	ApplyNewVCodeResponse {
@@ -72,7 +73,8 @@ type ( // 提交 vcode status 加一, post /vcode/:vcode
 
 type ( // 认证 vcode, 分发 JWT, get /vcode/:vcode/verify
 	VerifyRequest {
-		Vcode string `path:"vcode"`
+		Vcode    string `path:"vcode"`
+		ClientID string `form:"client_id"`
 	}
 
 	VerifyResponse {
