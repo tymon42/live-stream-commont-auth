@@ -2,6 +2,7 @@ package danmuauth
 
 import (
 	"context"
+	"errors"
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
@@ -24,7 +25,20 @@ func NewDanmuAuthStatusAddOneLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *DanmuAuthStatusAddOneLogic) DanmuAuthStatusAddOne(req *types.AddOneRequest) (resp *types.AddOneResponse, err error) {
-	// todo: add your logic here and delete this line
+	l.Logger.Infof("DanmuAUthStatusAddOne,req: %v", req)
 
-	return
+	da, err := l.svcCtx.DanmuAuthDB.FindByBuidVCode(l.ctx, req.Buid, req.Vcode)
+	if err != nil {
+		return nil, err
+	} else if da == nil && err == nil {
+		return nil, errors.New("vcode not found")
+	}
+
+	// add one
+	err = l.svcCtx.DanmuAuthDB.AddVerifiedCount(l.ctx, da)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.AddOneResponse{Status: da.VerifiedCount}, nil
 }

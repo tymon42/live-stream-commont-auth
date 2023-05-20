@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewBalanceStore(db *db.DB) core.BalenceStore {
+func NewBalanceStore(db *db.DB) core.BalanceStore {
 	return &balanceStore{db: db}
 }
 

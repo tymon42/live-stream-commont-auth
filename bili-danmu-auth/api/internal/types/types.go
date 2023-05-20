@@ -2,7 +2,7 @@
 package types
 
 type ApplyNewVCodeRequest struct {
-	Buid     string `path:"buid"`
+	Buid     int    `path:"buid"`
 	Key      string `form:"key"` // 0 为 devloper 登录, 不可以使用
 	ClientID string `form:"client_id"`
 }
@@ -13,19 +13,22 @@ type ApplyNewVCodeResponse struct {
 
 type AddOneRequest struct {
 	Vcode string `path:"vcode"`
+	Buid  int    `form:"buid"`
 }
 
 type AddOneResponse struct {
-	Status int32 `json:"status"`
+	Status int `json:"status"`
 }
 
 type VerifyRequest struct {
 	Vcode    string `path:"vcode"`
+	Buid     int    `form:"buid"`
 	ClientID string `form:"client_id"`
 }
 
 type VerifyResponse struct {
-	Jwt string `json:"jwt"`
+	AccessToken  string `json:"access_token"`
+	AccessExpire int64  `json:"access_expire"`
 }
 
 type CheckRequest struct {

@@ -13,6 +13,7 @@ import (
 type ServiceContext struct {
 	Config      config.Config
 	DanmuAuthDB core.DanmuAuthStore
+	BalanceDB   core.BalanceStore
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -21,13 +22,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	if err != nil {
 		logx.Errorf("open db failed, err: %v", err)
 	}
-	err = db.AutoMigrate(&core.DanmuAuth{})
+	err = db.AutoMigrate(&core.DanmuAuth{}, &core.Balance{})
 	if err != nil {
 		logx.Infof("auto migrate failed, err: %v", err)
 	}
 	return &ServiceContext{
 		Config: c,
 		DanmuAuthDB: store.NewDanmuAuthStore(&pkg_db.DB{
+			Write: db,
+			Read:  db,
+		}),
+		BalanceDB: store.NewBalanceStore(&pkg_db.DB{
 			Write: db,
 			Read:  db,
 		}),

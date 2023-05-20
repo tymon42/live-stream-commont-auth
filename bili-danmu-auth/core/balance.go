@@ -16,8 +16,8 @@ type (
 		Balance int `gorm:"default:100;not null" json:"balance"`
 	}
 
-	// BalenceStore interface
-	BalenceStore interface {
+	// BalanceStore interface
+	BalanceStore interface {
 		Save(ctx context.Context, balance *Balance) error
 		// FindByBuid returns the balance of the buid
 		FindByBuid(ctx context.Context, buid uint64) (*Balance, error)

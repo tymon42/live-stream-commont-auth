@@ -22,6 +22,7 @@ func (d *danmuAuthStore) toUpdateParams(danmuAuth *core.DanmuAuth) map[string]in
 	return map[string]interface{}{
 		"buid":           danmuAuth.Buid,
 		"v_code":         danmuAuth.VCode,
+		"client_id":      danmuAuth.ClientID,
 		"verified_count": danmuAuth.VerifiedCount,
 	}
 }
