@@ -11,7 +11,7 @@ type (
 	DanmuAuth struct {
 		gorm.Model
 		// Buid is Bilibili user's UID
-		Buid uint `gorm:"type:int;default:0;not null" json:"buid"`
+		Buid int `gorm:"type:int;default:0;not null" json:"buid"`
 		// UUID is Client instance's ID
 		UUID string `gorm:"type:varchar(36)" json:"uuid"`
 		// VCode is Client verification code

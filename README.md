@@ -36,7 +36,7 @@ docker run --rm -it -p 8888:8888 bili-danmu-auth-server:latest
 ```
 #### Start worker
 ```
-go run bili-danmu-auth/worker/main.go -r <room_id>
+go run bili-danmu-auth/worker/main.go -api "http://127.0.0.1:8888" -r <room_id>
 ```
 
 #### Start Swagger web UI

@@ -1,67 +1,131 @@
 syntax = "v1"
 
 info (
-	title: bili-danmu-auth
+	title: danmu-auth
 )
 
 @server(
-	prefix: /danmuauth/v1
+	prefix: /api/v1
 	group: danmuauth
 )
 service danmu-auth {
-	@doc "申请 vcode"
-	@handler DanmuAuthAplyHandler
-	post /apply (ApplyRequest) returns (ApplyResponse)
+	@doc "申请新 vcode"
+	@handler DanmuAuthApplyNewVCodeHandler
+	get /vcode/:buid (ApplyNewVCodeRequest) returns (ApplyNewVCodeResponse)
 	
-	@doc "提交 vcode"
-	@handler DanmuAuthSubmitHandler
-	post /submit (SubmitRequest) returns (SubmitResponse)
+	@doc "提交 vcode status 加一"
+	@handler DanmuAuthStatusAddOneHandler
+	post /vcode/:vcode (AddOneRequest) returns (AddOneResponse)
 	
-	@doc "获取 danmuAuth 状态"
-	@handler DanmuAuthStatusHandler
-	get /status (StatusRequest) returns (StatusResponse)
+	@doc "认证 vcode, 分发 JWT"
+	@handler DanmuAuthVerifyHandler
+	get /vcode/:vcode/verify (VerifyRequest) returns (VerifyResponse)
 }
 
-type (
-	ApplyRequest {
-		// buid
-		Buid uint64 `json:"buid"`
-		// client_uuid
-		Client_uuid string `json:"client_uuid"`
+@server(
+	prefix: /api/v1
+	group: devloper
+	jwt: Auth
+)
+service danmu-auth {
+	@doc "校验 JWT"
+	@handler DanmuAuthCheckHandler
+	get /jwt (CheckRequest) returns (CheckResponse)
+	
+	@doc "添加 Key"
+	@handler DanmuAuthAddKeyHandler
+	post /key (AddKeyRequest) returns (AddKeyResponse)
+	
+	@doc "删除 Key"
+	@handler DanmuAuthDelKeyHandler
+	delete /key (DeleteKeyRequest) returns(DeleteKeyResponse)
+	
+	@doc "获取 Key 列表和余额"
+	@handler DanmuAuthGetKeyListHandler
+	get /keys (GetKeyListRequest) returns (GetKeyListResponse)
+	
+	@doc "充值余额"
+	@handler DanmuAuthRechargeHandler
+	post /recharge (RechargeRequest) returns (RechargeResponse)
+}
+
+type ( // 申请新 vcode, get /vcode/:buid
+	ApplyNewVCodeRequest {
+		Buid string `path:"buid"`
+		Key  string `form:"key"` // 0 为 devloper 登录, 不可以使用
 	}
 
-	ApplyResponse {
-		// vcode
+	ApplyNewVCodeResponse {
 		Vcode string `json:"vcode"`
 	}
 )
 
-type (
-	SubmitRequest {
-		// buid
-		Buid uint64 `json:"buid"`
-		// vcode
-		Vcode string `json:"vcode"`
+type ( // 提交 vcode status 加一, post /vcode/:vcode
+	AddOneRequest {
+		Vcode string `path:"vcode"`
 	}
 
-	SubmitResponse {
+	AddOneResponse {
+		Status int32 `json:"status"`
+	}
+)
+
+type ( // 认证 vcode, 分发 JWT, get /vcode/:vcode/verify
+	VerifyRequest {
+		Vcode string `path:"vcode"`
+	}
+
+	VerifyResponse {
+		Jwt string `json:"jwt"`
 	}
 )
 
 type (
-	StatusRequest {
-		// buid
-		Buid uint64 `form:"buid"`
-		// client_uuid
-		Client_uuid string `form:"client_uuid"`
-		// vcode
-		Vcode string `form:"vcode"`
-		// count
-		Count uint64 `form:"count"`
+	CheckRequest {
 	}
 
-	StatusResponse {
-		// verify_count
-		Verify_count int64 `json:"verify_count"`
+	CheckResponse {
+		Buid string `json:"buid"`
+	}
+)
+
+type (
+	AddKeyRequest {
+		Key string `form:"key"`
+	}
+
+	AddKeyResponse {
+		Ok bool `json:"ok"`
+	}
+)
+
+type (
+	DeleteKeyRequest {
+		Key string `form:"key"`
+	}
+
+	DeleteKeyResponse {
+		Ok bool `json:"ok"`
+	}
+)
+
+type (
+	GetKeyListRequest {
+	}
+
+	GetKeyListResponse {
+		Balance int64    `json:"balance"`
+		Keys    []string `json:"keys"`
+	}
+)
+
+type (
+	RechargeRequest {
+		Buid   string `json:"buid"`
+		Amount int64  `json:"amount"`
+	}
+
+	RechargeResponse {
+		Ok bool `json:"ok"`
 	}
 )

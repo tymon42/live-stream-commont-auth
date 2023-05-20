@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	danmuauth "github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/handler/danmuauth"
+	devloper "github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/handler/devloper"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -14,21 +15,53 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodPost,
-				Path:    "/apply",
-				Handler: danmuauth.DanmuAuthAplyHandler(serverCtx),
+				Method:  http.MethodGet,
+				Path:    "/vcode/:buid",
+				Handler: danmuauth.DanmuAuthApplyNewVCodeHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/submit",
-				Handler: danmuauth.DanmuAuthSubmitHandler(serverCtx),
+				Path:    "/vcode/:vcode",
+				Handler: danmuauth.DanmuAuthStatusAddOneHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/status",
-				Handler: danmuauth.DanmuAuthStatusHandler(serverCtx),
+				Path:    "/vcode/:vcode/verify",
+				Handler: danmuauth.DanmuAuthVerifyHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/danmuauth/v1"),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/jwt",
+				Handler: devloper.DanmuAuthCheckHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/key",
+				Handler: devloper.DanmuAuthAddKeyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/key",
+				Handler: devloper.DanmuAuthDelKeyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/keys",
+				Handler: devloper.DanmuAuthGetKeyListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/recharge",
+				Handler: devloper.DanmuAuthRechargeHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/v1"),
 	)
 }

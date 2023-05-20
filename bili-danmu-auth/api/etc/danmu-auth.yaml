@@ -1,3 +1,9 @@
 Name: danmu-auth
 Host: 0.0.0.0
 Port: 8888
+
+Auth:
+  # AccessSecret: 用于生成token的密钥
+  AccessSecret: test
+  # AccessExpire: token有效期，单位秒, 默认为7天
+  AccessExpire: 604800
