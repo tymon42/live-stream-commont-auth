@@ -50,6 +50,10 @@ func main() {
 	}
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
+		if !regDev.MatchString(danmaku.Content) && !reg1.MatchString(danmaku.Content) {
+			return
+		}
+
 		// fmt.Println(danmaku.Content)
 		if regDev.MatchString(danmaku.Content) {
 			fmt.Println("dev login or signup")
@@ -61,35 +65,41 @@ func main() {
 				log.Infoln("submit vcode failed, err: ", err)
 			}
 			if res.StatusCode() == 200 {
-				fmt.Println("submit vcode success")
+				fmt.Println("submit vcode success, buid: ", danmaku.Sender.Uid, " vcode: ", regDev.FindString(danmaku.Content))
 			} else {
 				fmt.Println("submit vcode failed, status code: ", res.StatusCode())
 				fmt.Printf("res: %v\n", res)
 			}
 		}
 
-		result1 := reg1.FindAllStringSubmatch(danmaku.Content, -1)
-		if len(result1) > 0 {
-			fmt.Println("vcode = ", result1[0][0])
+		// result1 := reg1.FindAllStringSubmatch(danmaku.Content, -1)
+		// if len(result1) > 0 {
+		// 	// 处理 vcode, 向 /api/v1/vcode/{vcode}/verify 发送请求
+		// 	res, err := httpClient.R().
+		// 		SetBody(SubmitVCode{Buid: danmaku.Sender.Uid}).
+		// 		Post(api + "/api/v1/vcode/" + result1[0][0])
+		// 	if err != nil {
+		// 		log.Infoln("submit vcode failed, err: ", err)
+		// 	} else if res.StatusCode() == 200 {
+		// 		fmt.Println("submit vcode success")
+		// 	}
+		// }
+
+		if reg1.MatchString(danmaku.Content) {
 			// 处理 vcode, 向 /api/v1/vcode/{vcode}/verify 发送请求
 			res, err := httpClient.R().
 				SetBody(SubmitVCode{Buid: danmaku.Sender.Uid}).
-				Post(api + "/api/v1/vcode/" + result1[0][0])
+				Post(api + "/api/v1/vcode/" + reg1.FindString(danmaku.Content))
 			if err != nil {
 				log.Infoln("submit vcode failed, err: ", err)
-			}
-			if res.StatusCode() == 200 {
+			} else if res.StatusCode() == 200 {
 				fmt.Println("submit vcode success")
-			} else {
-				fmt.Println("submit vcode failed, status code: ", res.StatusCode())
-				fmt.Printf("res: %v\n", res)
 			}
 		}
+
 	})
 
 	c.OnGift(func(gift *message.Gift) {
-		fmt.Printf("gift: %+v\n", gift)
-
 		if gift.CoinType != "gold" {
 			return
 		}
@@ -99,12 +109,8 @@ func main() {
 			Post(api + "/api/v1/recharge/")
 		if err != nil {
 			log.Infoln("charge failed, err: ", err)
-		}
-		if res.StatusCode() == 200 {
+		} else if res.StatusCode() == 200 {
 			fmt.Println("charge success, buid: ", gift.Uid, " amount: ", gift.Price/10)
-		} else {
-			fmt.Println("charge failed, status code: ", res.StatusCode())
-			fmt.Printf("res: %v\n", res)
 		}
 
 	})
