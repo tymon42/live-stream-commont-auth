@@ -13,8 +13,7 @@ import (
 )
 
 type SubmitVCode struct {
-	VCode string `json:"vcode"`
-	Buid  int    `json:"buid"`
+	Buid int `json:"buid"`
 }
 
 func main() {
@@ -39,6 +38,7 @@ func main() {
 	httpClient := resty.New()
 	c := client.NewClient(roomid)
 	reg1 := regexp.MustCompile(vcodePrefix + `\S{` + vcodeSuffixLen + `}`)
+	regDev := regexp.MustCompile(`开发者登录或注册-` + `\S{11}`)
 	if reg1 == nil {
 		fmt.Println("regexp err")
 		return
@@ -46,13 +46,12 @@ func main() {
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		// fmt.Println(danmaku.Content)
-		result1 := reg1.FindAllStringSubmatch(danmaku.Content, -1)
-		if len(result1) > 0 {
-			fmt.Println("vcode = ", result1[0][0])
-			// 处理 vcode, 向 danmuauth/submiVcode 发送请求
+		if regDev.MatchString(danmaku.Content) {
+			fmt.Println("dev login or signup")
+			// 处理 vcode, 向 /api/v1/vcode/{vcode}/verify 发送请求
 			res, err := httpClient.R().
-				SetBody(SubmitVCode{VCode: result1[0][0], Buid: danmaku.Sender.Uid}).
-				Post(api + "/danmuauth/v1/submit")
+				SetBody(SubmitVCode{Buid: danmaku.Sender.Uid}).
+				Post(api + "/api/v1/vcode/" + regDev.FindString(danmaku.Content))
 			if err != nil {
 				log.Infoln("submit vcode failed, err: ", err)
 			}
@@ -60,6 +59,25 @@ func main() {
 				fmt.Println("submit vcode success")
 			} else {
 				fmt.Println("submit vcode failed, status code: ", res.StatusCode())
+				fmt.Printf("res: %v\n", res)
+			}
+		}
+
+		result1 := reg1.FindAllStringSubmatch(danmaku.Content, -1)
+		if len(result1) > 0 {
+			fmt.Println("vcode = ", result1[0][0])
+			// 处理 vcode, 向 /api/v1/vcode/{vcode}/verify 发送请求
+			res, err := httpClient.R().
+				SetBody(SubmitVCode{Buid: danmaku.Sender.Uid}).
+				Post(api + "/api/v1/vcode/" + result1[0][0])
+			if err != nil {
+				log.Infoln("submit vcode failed, err: ", err)
+			}
+			if res.StatusCode() == 200 {
+				fmt.Println("submit vcode success")
+			} else {
+				fmt.Println("submit vcode failed, status code: ", res.StatusCode())
+				fmt.Printf("res: %v\n", res)
 			}
 		}
 	})

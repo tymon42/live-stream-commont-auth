@@ -10,8 +10,8 @@ import (
 // GenRandomBiliVCode generates a random vcode for bilidanmuauth
 // params: 1. client_uuid 2.uid 3. prefix 4. length
 // return: 1. vcode
-func GenRandomBiliVCode(clientUUID string, uid string, prefix string, length uint) string {
-	data := "bili" + clientUUID + uid + strconv.FormatInt((time.Now().UnixNano()), 10)
+func GenRandomBiliVCode(clientUUID string, uid int, prefix string, length uint) string {
+	data := "bili" + clientUUID + string(rune(uid)) + strconv.FormatInt((time.Now().UnixNano()), 10)
 	hashString := hashSHA1(data)
 	if prefix == "" {
 		return "vc-" + hashString[:length]

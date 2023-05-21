@@ -12,6 +12,8 @@ require (
 	gorm.io/gorm v1.24.1
 )
 
+require github.com/gofrs/uuid v4.2.0+incompatible // indirect
+
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -19,6 +21,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/felixge/fgprof v0.9.3 // indirect
+	github.com/fox-one/pkg/uuid v0.0.1
 	github.com/glebarez/go-sqlite v1.19.1 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect

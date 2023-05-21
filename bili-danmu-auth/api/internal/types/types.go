@@ -3,7 +3,7 @@ package types
 
 type ApplyNewVCodeRequest struct {
 	Buid     int    `path:"buid"`
-	Key      string `form:"key"` // 0 为 devloper 登录, 不可以使用
+	Key      string `form:"key,optional"` // 不填 为 devloper 登录, 只有 经过弹幕认证的用户才能申请 vcode
 	ClientID string `form:"client_id"`
 }
 
@@ -13,7 +13,7 @@ type ApplyNewVCodeResponse struct {
 
 type AddOneRequest struct {
 	Vcode string `path:"vcode"`
-	Buid  int    `form:"buid"`
+	Buid  int    `json:"buid"`
 }
 
 type AddOneResponse struct {
@@ -35,15 +35,14 @@ type CheckRequest struct {
 }
 
 type CheckResponse struct {
-	Buid string `json:"buid"`
+	Buid int `json:"buid"`
 }
 
 type AddKeyRequest struct {
-	Key string `form:"key"`
 }
 
 type AddKeyResponse struct {
-	Ok bool `json:"ok"`
+	Key string `json:"key"`
 }
 
 type DeleteKeyRequest struct {
@@ -51,20 +50,19 @@ type DeleteKeyRequest struct {
 }
 
 type DeleteKeyResponse struct {
-	Ok bool `json:"ok"`
 }
 
 type GetKeyListRequest struct {
 }
 
 type GetKeyListResponse struct {
-	Balance int64    `json:"balance"`
+	Balance int      `json:"balance"`
 	Keys    []string `json:"keys"`
 }
 
 type RechargeRequest struct {
 	Buid   string `json:"buid"`
-	Amount int64  `json:"amount"`
+	Amount int    `json:"amount"`
 }
 
 type RechargeResponse struct {

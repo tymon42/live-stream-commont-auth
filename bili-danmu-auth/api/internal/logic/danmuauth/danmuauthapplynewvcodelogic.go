@@ -2,6 +2,7 @@ package danmuauth
 
 import (
 	"context"
+	"errors"
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
@@ -28,14 +29,56 @@ func NewDanmuAuthApplyNewVCodeLogic(ctx context.Context, svcCtx *svc.ServiceCont
 func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNewVCodeRequest) (resp *types.ApplyNewVCodeResponse, err error) {
 	l.Logger.Infof("DanmuAuthApplyNewVCode, req: %+v", req)
 
-	// TODO: check if key is valid or developer is valid
+	// devloper login or signup
+	if req.Key == "" {
+		new_vcode := vcode.GenRandomBiliVCode(req.ClientID, req.Buid, "开发者登录或注册-", 11)
+		err := l.svcCtx.DanmuAuthDB.Save(l.ctx, &core.DanmuAuth{Buid: req.Buid, ClientID: req.ClientID, VCode: new_vcode})
+		if err != nil {
+			return nil, err
+		}
+
+		// init balance if not exist
+		balc, err := l.svcCtx.BalanceDB.FindByBuid(l.ctx, req.Buid)
+		if err != nil {
+			return nil, err
+		} else if balc == nil && err == nil {
+			err = l.svcCtx.BalanceDB.Save(l.ctx, &core.Balance{Buid: req.Buid, Balance: 50})
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		resp = &types.ApplyNewVCodeResponse{Vcode: new_vcode}
+
+		return resp, nil
+	}
+
+	// check if key is valid
+	accessKey, err := l.svcCtx.AccessKeyDB.FindByKey(l.ctx, req.Key)
+	if err != nil {
+		return nil, err
+	} else if accessKey == nil && err == nil {
+		return nil, errors.New("access key not found")
+	}
+
+	balc, err := l.svcCtx.BalanceDB.FindByBuid(l.ctx, accessKey.Buid)
+	if err != nil {
+		return nil, err
+	} else if balc == nil && err == nil {
+		return nil, errors.New("balance not found")
+	}
+	// decr balance 1
+	err = l.svcCtx.BalanceDB.DecrBalance(l.ctx, balc, 1)
+	if err != nil {
+		return nil, err
+	}
 
 	da, err := l.svcCtx.DanmuAuthDB.FindByClientID(l.ctx, req.ClientID)
 	if err != nil {
 		return nil, err
 	} else if da == nil && err == nil { // not found, create new
 		// generate new vcode
-		new_vcode := vcode.GenRandomBiliVCode(req.ClientID, string(rune(req.Buid)), "", 10)
+		new_vcode := vcode.GenRandomBiliVCode(req.ClientID, req.Buid, "", 10)
 		err := l.svcCtx.DanmuAuthDB.Save(l.ctx, &core.DanmuAuth{Buid: req.Buid, ClientID: req.ClientID, VCode: new_vcode})
 		if err != nil {
 			return nil, err

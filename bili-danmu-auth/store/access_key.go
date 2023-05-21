@@ -48,8 +48,8 @@ func (a *accessKeyStore) Save(ctx context.Context, accessKey *core.AccessKey) er
 	})
 }
 
-func (a *accessKeyStore) Delete(ctx context.Context, id uint) error {
-	return a.db.Update().Delete(&core.AccessKey{}, id).Error
+func (a *accessKeyStore) Delete(ctx context.Context, buid int) error {
+	return a.db.Update().Where("buid = ?", buid).Delete(&core.AccessKey{}).Error
 }
 
 func (a *accessKeyStore) FindByKey(ctx context.Context, key string) (*core.AccessKey, error) {
@@ -64,7 +64,7 @@ func (a *accessKeyStore) FindByKey(ctx context.Context, key string) (*core.Acces
 	return &accessKey, err
 }
 
-func (a *accessKeyStore) ListByBuid(ctx context.Context, buid uint) ([]*core.AccessKey, error) {
+func (a *accessKeyStore) ListByBuid(ctx context.Context, buid int) ([]*core.AccessKey, error) {
 	var accessKeys []*core.AccessKey
 	err := a.db.Update().Where("buid = ?", buid).Find(&accessKeys).Error
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {

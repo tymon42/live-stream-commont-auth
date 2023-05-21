@@ -48,7 +48,7 @@ func (b *balanceStore) Save(ctx context.Context, balance *core.Balance) error {
 	})
 }
 
-func (b *balanceStore) FindByBuid(ctx context.Context, buid uint64) (*core.Balance, error) {
+func (b *balanceStore) FindByBuid(ctx context.Context, buid int) (*core.Balance, error) {
 	var balance core.Balance
 	err := b.db.Update().Where("buid = ?", buid).First(&balance).Error
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -58,6 +58,23 @@ func (b *balanceStore) FindByBuid(ctx context.Context, buid uint64) (*core.Balan
 	}
 
 	return &balance, err
+}
+
+func (b *balanceStore) DecrBalance(ctx context.Context, balance *core.Balance, amount int) error {
+
+	balance, err := b.FindByBuid(ctx, balance.Buid)
+	if err != nil {
+		return err
+	} else if balance == nil {
+		return errors.New("balance not found")
+	}
+
+	if balance.Balance < amount {
+		return errors.New("balance not enough")
+	}
+
+	balance.Balance -= amount
+	return b.db.Update().Model(balance).Where("id = ?", balance.ID).Update("balance", balance.Balance).Error
 }
 
 func (b *balanceStore) Charge(ctx context.Context, balance *core.Balance, amount int) error {

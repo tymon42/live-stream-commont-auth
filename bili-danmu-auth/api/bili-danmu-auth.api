@@ -52,7 +52,7 @@ service danmu-auth {
 type ( // 申请新 vcode, get /vcode/:buid
 	ApplyNewVCodeRequest {
 		Buid     int    `path:"buid"`
-		Key      string `form:"key"` // 0 为 devloper 登录, 不可以使用
+		Key      string `form:"key,optional"` // 不填 为 devloper 登录, 只有 经过弹幕认证的用户才能申请 vcode
 		ClientID string `form:"client_id"`
 	}
 
@@ -64,7 +64,7 @@ type ( // 申请新 vcode, get /vcode/:buid
 type ( // 提交 vcode status 加一, post /vcode/:vcode
 	AddOneRequest {
 		Vcode string `path:"vcode"`
-		Buid  int    `form:"buid"`
+		Buid  int    `json:"buid"`
 	}
 
 	AddOneResponse {
@@ -90,17 +90,16 @@ type (
 	}
 
 	CheckResponse {
-		Buid string `json:"buid"`
+		Buid int `json:"buid"`
 	}
 )
 
 type (
 	AddKeyRequest {
-		Key string `form:"key"`
 	}
 
 	AddKeyResponse {
-		Ok bool `json:"ok"`
+		Key string `json:"key"`
 	}
 )
 
@@ -110,7 +109,6 @@ type (
 	}
 
 	DeleteKeyResponse {
-		Ok bool `json:"ok"`
 	}
 )
 
@@ -119,7 +117,7 @@ type (
 	}
 
 	GetKeyListResponse {
-		Balance int64    `json:"balance"`
+		Balance int      `json:"balance"`
 		Keys    []string `json:"keys"`
 	}
 )
@@ -127,7 +125,7 @@ type (
 type (
 	RechargeRequest {
 		Buid   string `json:"buid"`
-		Amount int64  `json:"amount"`
+		Amount int    `json:"amount"`
 	}
 
 	RechargeResponse {
