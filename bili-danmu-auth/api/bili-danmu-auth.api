@@ -44,7 +44,14 @@ service danmu-auth {
 	@handler DanmuAuthGetKeyListHandler
 	get /keys (GetKeyListRequest) returns (GetKeyListResponse)
 	
-	@doc "充值余额"
+}
+
+@server(
+	prefix: /api/v1
+	group: devloper
+)
+service danmu-auth {
+	@doc "充值"
 	@handler DanmuAuthRechargeHandler
 	post /recharge (RechargeRequest) returns (RechargeResponse)
 }
@@ -124,8 +131,8 @@ type (
 
 type (
 	RechargeRequest {
-		Buid   string `json:"buid"`
-		Amount int    `json:"amount"`
+		Buid   int `json:"buid"`
+		Amount int `json:"amount"`
 	}
 
 	RechargeResponse {

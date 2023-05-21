@@ -2,8 +2,6 @@ package devloper
 
 import (
 	"context"
-	"fmt"
-	"strconv"
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
@@ -29,16 +27,21 @@ func NewDanmuAuthRechargeLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 func (l *DanmuAuthRechargeLogic) DanmuAuthRecharge(req *types.RechargeRequest) (resp *types.RechargeResponse, err error) {
 	l.Logger.Infof("DanmuAuthRecharge,req: %v", req)
 
-	var buid_string string = fmt.Sprintf("%v", l.ctx.Value("buid"))
+	blc, err := l.svcCtx.BalanceDB.FindByBuid(l.ctx, req.Buid)
+	if err != nil {
+		return nil, err
+	} else if blc == nil && err == nil {
+		err = l.svcCtx.BalanceDB.Save(l.ctx, &core.Balance{Buid: req.Buid, Balance: 50})
+		if err != nil {
+			return nil, err
+		}
+	}
 
-	buid, err := strconv.Atoi(buid_string)
+	err = l.svcCtx.BalanceDB.Charge(l.ctx, blc, req.Amount)
 	if err != nil {
 		return nil, err
 	}
-	err = l.svcCtx.BalanceDB.Charge(l.ctx, &core.Balance{Buid: buid}, req.Amount)
-	if err != nil {
-		return nil, err
-	}
+	l.Logger.Infof("DanmuAuthRecharge, charge success")
 
 	return &types.RechargeResponse{Ok: true}, nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/gofrs/uuid"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/core"
@@ -43,6 +44,19 @@ func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNew
 			return nil, err
 		} else if balc == nil && err == nil {
 			err = l.svcCtx.BalanceDB.Save(l.ctx, &core.Balance{Buid: req.Buid, Balance: 50})
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		// if no access key, add a new one
+		keys, err := l.svcCtx.AccessKeyDB.ListByBuid(l.ctx, req.Buid)
+		if err != nil {
+			return nil, err
+		} else if len(keys) == 0 && err == nil {
+			// add a new access key
+			newAccessKey, _ := uuid.NewV4()
+			err = l.svcCtx.AccessKeyDB.Save(l.ctx, &core.AccessKey{Buid: req.Buid, Key: newAccessKey.String()})
 			if err != nil {
 				return nil, err
 			}

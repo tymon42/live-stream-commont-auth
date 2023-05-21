@@ -16,6 +16,11 @@ type SubmitVCode struct {
 	Buid int `json:"buid"`
 }
 
+type Charge struct {
+	Buid   int `json:"buid"`
+	Amount int `json:"amount"`
+}
+
 func main() {
 	// 主机名
 	var api string
@@ -81,6 +86,29 @@ func main() {
 			}
 		}
 	})
+
+	c.OnGift(func(gift *message.Gift) {
+		fmt.Printf("gift: %+v\n", gift)
+
+		if gift.CoinType != "gold" {
+			return
+		}
+
+		res, err := httpClient.R().
+			SetBody(Charge{Buid: gift.Uid, Amount: gift.Price / 10}).
+			Post(api + "/api/v1/recharge/")
+		if err != nil {
+			log.Infoln("charge failed, err: ", err)
+		}
+		if res.StatusCode() == 200 {
+			fmt.Println("charge success, buid: ", gift.Uid, " amount: ", gift.Price/10)
+		} else {
+			fmt.Println("charge failed, status code: ", res.StatusCode())
+			fmt.Printf("res: %v\n", res)
+		}
+
+	})
+
 	err := c.Start()
 	if err != nil {
 		log.Fatal(err)

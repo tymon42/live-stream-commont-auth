@@ -61,8 +61,8 @@ type GetKeyListResponse struct {
 }
 
 type RechargeRequest struct {
-	Buid   string `json:"buid"`
-	Amount int    `json:"amount"`
+	Buid   int `json:"buid"`
+	Amount int `json:"amount"`
 }
 
 type RechargeResponse struct {
