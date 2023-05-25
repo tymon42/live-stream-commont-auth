@@ -1,1 +1,9 @@
+data
+
+# dev #
 tmp
+#   air #
+script/dev.sh
+.air.toml
+makefile
+
