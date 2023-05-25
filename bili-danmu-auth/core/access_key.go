@@ -19,7 +19,7 @@ type (
 	// AccessKeyStore interface
 	AccessKeyStore interface {
 		Save(ctx context.Context, accessKey *AccessKey) error
-		Delete(ctx context.Context, buid int) error
+		Delete(ctx context.Context, buid int, accessKey string) error
 		FindByKey(ctx context.Context, key string) (*AccessKey, error)
 		ListByBuid(ctx context.Context, buid int) ([]*AccessKey, error)
 	}

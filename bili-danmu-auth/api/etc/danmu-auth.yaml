@@ -2,6 +2,12 @@ Name: danmu-auth
 Host: 0.0.0.0
 Port: 8888
 
+DanmuAuth: 
+  VCodeExpire: 300
+  DevloperVCodePrefix: 开发者登录或注册-
+  NormalUserVCodePrefix: vc-
+  InitialBalance: 100
+
 Auth:
   # AccessSecret: 用于生成token的密钥
   AccessSecret: testtest

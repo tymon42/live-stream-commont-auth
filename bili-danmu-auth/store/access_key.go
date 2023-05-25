@@ -48,8 +48,8 @@ func (a *accessKeyStore) Save(ctx context.Context, accessKey *core.AccessKey) er
 	})
 }
 
-func (a *accessKeyStore) Delete(ctx context.Context, buid int) error {
-	return a.db.Update().Where("buid = ?", buid).Delete(&core.AccessKey{}).Error
+func (a *accessKeyStore) Delete(ctx context.Context, buid int, accessKey string) error {
+	return a.db.Update().Where("buid = ? AND key = ?", buid, accessKey).Delete(&core.AccessKey{}).Error
 }
 
 func (a *accessKeyStore) FindByKey(ctx context.Context, key string) (*core.AccessKey, error) {

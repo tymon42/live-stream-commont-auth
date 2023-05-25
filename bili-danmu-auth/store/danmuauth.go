@@ -30,6 +30,7 @@ func (d *danmuAuthStore) toUpdateParams(danmuAuth *core.DanmuAuth) map[string]in
 func (d *danmuAuthStore) update(db *db.DB, danmuAuth *core.DanmuAuth) (int64, error) {
 	updates := d.toUpdateParams(danmuAuth)
 	tx := db.Update().Model(danmuAuth).Where("id = ?", danmuAuth.ID).Updates(updates)
+
 	return tx.RowsAffected, tx.Error
 }
 
@@ -65,28 +66,30 @@ func (s *danmuAuthStore) AddVerifiedCount(ctx context.Context, danmuAuth *core.D
 	})
 }
 
-func (s *danmuAuthStore) FindByBuidVCode(ctx context.Context, buid int, VCode string) (*core.DanmuAuth, error) {
+func (s *danmuAuthStore) FindByBuidVCode(ctx context.Context, buid int, VCode string, within int) (*core.DanmuAuth, error) {
 	var danmuAuth core.DanmuAuth
-	_10minAgo := time.Now().Add(-10 * time.Minute)
-	err := s.db.View().WithContext(ctx).Where("buid = ? AND v_code = ? AND created_at > ?", buid, VCode, _10minAgo).Last(&danmuAuth).Error
+	_10minAgo := time.Now().Add(-time.Duration(within) * time.Second)
+	err := s.db.View().WithContext(ctx).Where("buid = ? AND v_code = ? AND updated_at > ?", buid, VCode, _10minAgo).Last(&danmuAuth).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
+
 	return &danmuAuth, nil
 }
 
-func (s *danmuAuthStore) FindByClientID(ctx context.Context, client_id string) (*core.DanmuAuth, error) {
+func (s *danmuAuthStore) FindByClientIDAndBuid(ctx context.Context, client_id string, buid, within int) (*core.DanmuAuth, error) {
 	var danmuAuth core.DanmuAuth
-	_10minAgo := time.Now().Add(-10 * time.Minute)
-	err := s.db.View().WithContext(ctx).Where("client_id = ? AND created_at > ?", client_id, _10minAgo).Last(&danmuAuth).Error
+	_10minAgo := time.Now().Add(-time.Duration(within) * time.Second)
+	err := s.db.View().WithContext(ctx).Where("client_id = ? AND buid = ? AND updated_at > ?", client_id, buid, _10minAgo).Last(&danmuAuth).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
+
 	return &danmuAuth, nil
 }

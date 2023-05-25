@@ -31,7 +31,7 @@ func (l *DanmuAuthStatusAddOneLogic) DanmuAuthStatusAddOne(req *types.AddOneRequ
 		return nil, errors.New("worker api_key error")
 	}
 
-	da, err := l.svcCtx.DanmuAuthDB.FindByBuidVCode(l.ctx, req.Buid, req.Vcode)
+	da, err := l.svcCtx.DanmuAuthDB.FindByBuidVCode(l.ctx, req.Buid, req.Vcode, l.svcCtx.Config.DanmuAuth.VCodeExpire)
 	if err != nil {
 		return nil, err
 	} else if da == nil && err == nil {

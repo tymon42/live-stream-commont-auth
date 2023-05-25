@@ -23,7 +23,7 @@ type (
 	DanmuAuthStore interface {
 		Save(ctx context.Context, danmuAuth *DanmuAuth) error
 		AddVerifiedCount(ctx context.Context, danmuAuth *DanmuAuth) error
-		FindByBuidVCode(ctx context.Context, buid int, VCode string) (*DanmuAuth, error)
-		FindByClientID(ctx context.Context, client_id string) (*DanmuAuth, error)
+		FindByBuidVCode(ctx context.Context, buid int, VCode string, within int) (*DanmuAuth, error)
+		FindByClientIDAndBuid(ctx context.Context, client_id string, buid, within int) (*DanmuAuth, error)
 	}
 )

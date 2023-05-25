@@ -35,7 +35,7 @@ func (l *DanmuAuthDelKeyLogic) DanmuAuthDelKey(req *types.DeleteKeyRequest) (res
 		return nil, err
 	}
 
-	err = l.svcCtx.AccessKeyDB.Delete(l.ctx, buid)
+	err = l.svcCtx.AccessKeyDB.Delete(l.ctx, buid, req.Key)
 	if err != nil {
 		return nil, err
 	}

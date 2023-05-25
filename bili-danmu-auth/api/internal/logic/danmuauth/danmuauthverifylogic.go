@@ -29,7 +29,7 @@ func NewDanmuAuthVerifyLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 func (l *DanmuAuthVerifyLogic) DanmuAuthVerify(req *types.VerifyRequest) (*types.VerifyResponse, error) {
 	l.Logger.Infof("verify request: %+v", req)
 
-	da, err := l.svcCtx.DanmuAuthDB.FindByClientID(l.ctx, req.ClientID)
+	da, err := l.svcCtx.DanmuAuthDB.FindByClientIDAndBuid(l.ctx, req.ClientID, req.Buid, l.svcCtx.Config.DanmuAuth.VCodeExpire)
 	if err != nil {
 		return nil, err
 	} else if da == nil && err == nil {
