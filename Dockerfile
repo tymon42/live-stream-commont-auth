@@ -18,7 +18,7 @@ COPY bili-danmu-auth/api/etc /usr/local/bin/etc
 RUN --mount=type=cache,target=/root/.cache/go-build \
 	--mount=type=cache,target=/go/pkg \
     go build -ldflags='-s -w -extldflags "-static"' -tags osusergo,netgo,sqlite_omit_load_extensio -o /usr/local/bin/danmu-auth-api bili-danmu-auth/api/danmu-auth.go
-# RUN go build -ldflags="-s -w" -o /app/danmu-auth-api bili-danmu-auth/api/danmu-auth.go
+# RUN go build -ldflags='-s -w -extldflags "-static"' -tags osusergo,netgo,sqlite_omit_load_extensio -o /usr/local/bin/danmu-auth-api bili-danmu-auth/api/danmu-auth.go
 
 ADD https://github.com/benbjohnson/litestream/releases/download/v0.3.8/litestream-v0.3.8-linux-amd64-static.tar.gz /tmp/litestream.tar.gz
 RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz
@@ -44,5 +44,7 @@ COPY etc/litestream.yml /etc/litestream.yml
 COPY script/run.sh /script/run.sh
 
 CMD [ "/script/run.sh" ]
+
+# RUN	litestream restore -v -if-replica-exists -o /data/danmu-auth-api.db "${REPLICA_URL}"
 
 # CMD ["./danmu-auth", "-f", "etc/danmu-auth.yaml"]

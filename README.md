@@ -29,13 +29,13 @@ new_vcode := vcode.GenBiliVCodeWithExtraInfo("<UUID>", "<UID>", "<TIME_NOW>")
 ## Authing as a Service (Bilibili)
 ### Start via Docker
 ```
-docker build -t bili-danmu-auth-api:v1 -f bili-danmu-auth/api/Dockerfile .
+docker build -t bili-danmu-auth-api -f Dockerfile .
 
 docker run \
   -p 8888:8888 \
   -v ${PWD}/data:/data \
   -e REPLICA_URL=<YOUR_DATA_BASE_BACKUP_URL> \
-  bili-danmu-auth-api:v1
+  bili-danmu-auth-api
 ```
 #### Start worker
 ```
