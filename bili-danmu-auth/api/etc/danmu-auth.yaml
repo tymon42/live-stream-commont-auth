@@ -3,6 +3,7 @@ Host: 0.0.0.0
 Port: 8888
 
 DanmuAuth: 
+  # VCodeExpire: 验证码有效期，单位秒, 默认为5分钟
   VCodeExpire: 300
   DevloperVCodePrefix: 开发者登录或注册-
   NormalUserVCodePrefix: vc-
