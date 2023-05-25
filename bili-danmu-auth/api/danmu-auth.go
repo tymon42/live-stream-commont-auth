@@ -13,6 +13,7 @@ import (
 )
 
 var configFile = flag.String("f", "etc/danmu-auth.yaml", "the config file")
+var db_path = flag.String("db-path", "danmu-auth.db", "the db file")
 
 func main() {
 	flag.Parse()
@@ -23,7 +24,7 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
-	ctx := svc.NewServiceContext(c)
+	ctx := svc.NewServiceContext(c, db_path)
 	handler.RegisterHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
