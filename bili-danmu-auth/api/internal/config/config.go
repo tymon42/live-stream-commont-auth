@@ -8,4 +8,7 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
+	Worker struct {
+		ApiKey string
+	}
 }

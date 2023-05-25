@@ -12,8 +12,9 @@ type ApplyNewVCodeResponse struct {
 }
 
 type AddOneRequest struct {
-	Vcode string `path:"vcode"`
-	Buid  int    `json:"buid"`
+	ApiKey string `json:"api_key"`
+	Vcode  string `path:"vcode"`
+	Buid   int    `json:"buid"`
 }
 
 type AddOneResponse struct {
@@ -61,8 +62,9 @@ type GetKeyListResponse struct {
 }
 
 type RechargeRequest struct {
-	Buid   int `json:"buid"`
-	Amount int `json:"amount"`
+	ApiKey string `json:"api_key"`
+	Buid   int    `json:"buid"`
+	Amount int    `json:"amount"`
 }
 
 type RechargeResponse struct {

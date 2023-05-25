@@ -2,6 +2,7 @@ package devloper
 
 import (
 	"context"
+	"errors"
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
@@ -26,6 +27,10 @@ func NewDanmuAuthRechargeLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *DanmuAuthRechargeLogic) DanmuAuthRecharge(req *types.RechargeRequest) (resp *types.RechargeResponse, err error) {
 	l.Logger.Infof("DanmuAuthRecharge,req: %v", req)
+
+	if req.ApiKey != l.svcCtx.Config.Worker.ApiKey {
+		return nil, errors.New("worker api_key error")
+	}
 
 	blc, err := l.svcCtx.BalanceDB.FindByBuid(l.ctx, req.Buid)
 	if err != nil {

@@ -27,6 +27,10 @@ func NewDanmuAuthStatusAddOneLogic(ctx context.Context, svcCtx *svc.ServiceConte
 func (l *DanmuAuthStatusAddOneLogic) DanmuAuthStatusAddOne(req *types.AddOneRequest) (resp *types.AddOneResponse, err error) {
 	l.Logger.Infof("DanmuAUthStatusAddOne,req: %v", req)
 
+	if req.ApiKey != l.svcCtx.Config.Worker.ApiKey {
+		return nil, errors.New("worker api_key error")
+	}
+
 	da, err := l.svcCtx.DanmuAuthDB.FindByBuidVCode(l.ctx, req.Buid, req.Vcode)
 	if err != nil {
 		return nil, err

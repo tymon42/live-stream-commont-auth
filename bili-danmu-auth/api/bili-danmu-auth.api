@@ -70,8 +70,9 @@ type ( // 申请新 vcode, get /vcode/:buid
 
 type ( // 提交 vcode status 加一, post /vcode/:vcode
 	AddOneRequest {
-		Vcode string `path:"vcode"`
-		Buid  int    `json:"buid"`
+		ApiKey string `json:"api_key"`
+		Vcode  string `path:"vcode"`
+		Buid   int    `json:"buid"`
 	}
 
 	AddOneResponse {
@@ -131,8 +132,9 @@ type (
 
 type (
 	RechargeRequest {
-		Buid   int `json:"buid"`
-		Amount int `json:"amount"`
+		ApiKey string `json:"api_key"`
+		Buid   int    `json:"buid"`
+		Amount int    `json:"amount"`
 	}
 
 	RechargeResponse {
