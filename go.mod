@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/Akegarasu/blivedm-go v1.3.0
-	github.com/glebarez/sqlite v1.8.0
+	github.com/glebarez/sqlite v1.8.0 // indirect
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/leaper-one/pkg v0.0.4
 	github.com/sirupsen/logrus v1.9.0
