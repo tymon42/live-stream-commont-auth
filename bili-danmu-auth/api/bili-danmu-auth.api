@@ -64,7 +64,8 @@ type ( // 申请新 vcode, get /vcode/:buid
 	}
 
 	ApplyNewVCodeResponse {
-		Vcode string `json:"vcode"`
+		Vcode    string `json:"vcode"`
+		ClientID string `json:"client_id"`
 	}
 )
 

@@ -90,7 +90,6 @@ func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNew
 		}
 	}
 
-	// found, return old vcode
-	return &types.ApplyNewVCodeResponse{Vcode: new_vcode}, nil
+	return &types.ApplyNewVCodeResponse{Vcode: new_vcode, ClientID: req.ClientID}, nil
 
 }

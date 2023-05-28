@@ -8,7 +8,8 @@ type ApplyNewVCodeRequest struct {
 }
 
 type ApplyNewVCodeResponse struct {
-	Vcode string `json:"vcode"`
+	Vcode    string `json:"vcode"`
+	ClientID string `json:"client_id"`
 }
 
 type AddOneRequest struct {
