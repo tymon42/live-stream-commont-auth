@@ -26,7 +26,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/vcode/:vcode/verify",
+				Path:    "/auth/:client_id/info",
+				Handler: danmuauth.DanmuAuthVCodeInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/auth/:client_id/jwt",
 				Handler: danmuauth.DanmuAuthVerifyHandler(serverCtx),
 			},
 		},

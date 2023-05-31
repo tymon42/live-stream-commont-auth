@@ -22,10 +22,19 @@ type AddOneResponse struct {
 	Status int `json:"status"`
 }
 
-type VerifyRequest struct {
-	Vcode    string `path:"vcode"`
+type VCodeInfoRequest struct {
 	Buid     int    `form:"buid"`
-	ClientID string `form:"client_id"`
+	ClientID string `path:"client_id"`
+}
+
+type VCodeInfoResponse struct {
+	Count    int    `json:"count"`
+	ClientID string `json:"client_id"`
+}
+
+type VerifyRequest struct {
+	Buid     int    `form:"buid"`
+	ClientID string `path:"client_id"`
 }
 
 type VerifyResponse struct {
