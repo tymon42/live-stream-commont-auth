@@ -6,7 +6,7 @@ require (
 	github.com/Akegarasu/blivedm-go v1.3.0
 	github.com/glebarez/sqlite v1.8.0 // indirect
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/leaper-one/pkg v0.0.4
+	github.com/leaper-one/pkg v0.0.5
 	github.com/sirupsen/logrus v1.9.0
 	github.com/zeromicro/go-zero v1.5.2
 	gorm.io/gorm v1.24.6

@@ -34,6 +34,11 @@ func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNew
 
 	switch req.Key {
 	case "": // devloper login or signup
+		// set periodlimit for devloper login or signup
+		if !l.svcCtx.Limiter.TryAcquire() {
+			return nil, errors.New("too many requests")
+		}
+
 		new_vcode = vcode.GenRandomBiliVCode(req.ClientID, req.Buid, l.svcCtx.Config.DanmuAuth.DevloperVCodePrefix, 11)
 		err := l.svcCtx.DanmuAuthDB.Save(l.ctx, &core.DanmuAuth{Buid: req.Buid, ClientID: req.ClientID, VCode: new_vcode})
 		if err != nil {
