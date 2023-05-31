@@ -16,7 +16,6 @@ PS:
 ## How to use
 You can also use our RESTFUL API https://danmu-auth.fly.dev to register or login.
 Check our [API document](https://krzwk4bbxe.apifox.cn), Password: `UNbP8vcJ` , for more details.
-链接: https://krzwk4bbxe.apifox.cn  访问密码: UNbP8vcJ
 
 ### 1. Register or login as a developer
 
