@@ -2,8 +2,14 @@ data
 
 # dev #
 tmp
-#   air #
+# air #
 script/dev.sh
 .air.toml
 makefile
 
+# Docker #
+.dockerignore
+
+# fly.io #
+fly.toml
+deploy.md
