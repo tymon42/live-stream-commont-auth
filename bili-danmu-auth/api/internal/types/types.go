@@ -23,8 +23,8 @@ type AddOneResponse struct {
 }
 
 type VCodeInfoRequest struct {
-	Buid     int    `form:"buid"`
-	ClientID string `path:"client_id"`
+	Buid     int    `path:"buid"`
+	ClientID string `form:"client_id"`
 }
 
 type VCodeInfoResponse struct {
@@ -33,8 +33,8 @@ type VCodeInfoResponse struct {
 }
 
 type VerifyRequest struct {
-	Buid     int    `form:"buid"`
-	ClientID string `path:"client_id"`
+	Buid     int    `path:"buid"`
+	ClientID string `form:"client_id"`
 }
 
 type VerifyResponse struct {

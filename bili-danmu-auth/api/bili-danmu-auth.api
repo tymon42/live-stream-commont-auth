@@ -19,11 +19,11 @@ service danmu-auth {
 	
 	@doc "获取 client_id 的校验信息, 若不需要jwt, 则使用此接口自行判断认证信息"
 	@handler DanmuAuthVCodeInfoHandler
-	get /auth/:client_id/info (VCodeInfoRequest) returns (VCodeInfoResponse)
+	get /auth/:buid/info (VCodeInfoRequest) returns (VCodeInfoResponse)
 	
 	@doc "认证 vcode, 分发 JWT, 搭配 Get /jwt 使用"
 	@handler DanmuAuthVerifyHandler
-	get /auth/:client_id/jwt (VerifyRequest) returns (VerifyResponse)
+	get /auth/:buid/jwt (VerifyRequest) returns (VerifyResponse)
 }
 
 @server(
@@ -87,8 +87,8 @@ type ( // 提交 vcode status 加一, post /vcode/:vcode
 
 type ( // 获取 vcode 校验信息, 若不需要jwt, 则使用此接口自行判断认证信息, get /auth/:client_id/info
 	VCodeInfoRequest {
-		Buid     int    `form:"buid"`
-		ClientID string `path:"client_id"`
+		Buid     int    `path:"buid"`
+		ClientID string `form:"client_id"`
 	}
 
 	VCodeInfoResponse {
@@ -99,8 +99,8 @@ type ( // 获取 vcode 校验信息, 若不需要jwt, 则使用此接口自行�
 
 type ( // 认证 vcode, 分发 JWT, get /auth/:client_id/jwt
 	VerifyRequest {
-		Buid     int    `form:"buid"`
-		ClientID string `path:"client_id"`
+		Buid     int    `path:"buid"`
+		ClientID string `form:"client_id"`
 	}
 
 	VerifyResponse {
