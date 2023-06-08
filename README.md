@@ -1,7 +1,7 @@
-# live-stream-comment-auth
+# live-stream-comment-auth  
 I came up with this idea when I wanted to build a Bilibili third party live-interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implemented a draft version and it is working well on our tool.  
 Now I am working on open source version which is gonna be more universal. And I will host a services that require payment(but of couse there will be a free tier) as well.
-# What's this?  
+## What's this?  
 It's a kind of authorization solution design for 3rd party app in live streaming platform like Bilibili or Youtube and so on.  
 
 You can easily use the RESTFUL API service to auth and generate JWT token for your own app (or danmu-game). Only registered user on the specific live streaming platform can pass thourgh the auth process.  
