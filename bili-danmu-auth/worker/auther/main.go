@@ -110,7 +110,7 @@ func main() {
 		}
 
 		res, err := httpClient.R().
-			SetBody(Charge{Buid: gift.Uid, Amount: gift.Price / 10, ApiKey: apiKey}).
+			SetBody(Charge{Buid: gift.Uid, Amount: (gift.Price / 10) / 2, ApiKey: apiKey}). // 每 1 毛钱兑换 50 余额
 			Post(api + "/api/v1/recharge/")
 		if err != nil {
 			log.Infoln("charge failed, err: ", err)
