@@ -2,15 +2,13 @@
 
 English | [简体中文](README_zh.md)
 
-I came up with this idea when I wanted to build a Bilibili third party live-interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implemented a draft version and it is working well on our tool.  
-Now I am working on open source version which is gonna be more universal. And I will host a services that require payment(but of couse there will be a free tier) as well.
+Originally, I wanted to write a third-party live interactive tool for Bilibili, but was troubled by identity verification and login design, so I came up with this idea. Me and [@Cunoe](https://github.com/CUNOE) have already implemented a basic version, which is currently working properly. Now I am developing a more universal open source version and will provide paid services (of course, there will also be a free trial period).
 ## What's this?  
-It's a kind of authorization solution design for 3rd party app in live streaming platform like Bilibili or Youtube and so on.  
+This is a designed authorization solution for third-party applications on live streaming platforms (such as Bilibili or YouTube). You can easily use RESTful API services to authorize and generate JWT tokens for your own applications (or barrage games). Only users registered on specific live streaming platforms can pass the authorization process.
 
-You can easily use the RESTFUL API service to auth and generate JWT token for your own app (or danmu-game). Only registered user on the specific live streaming platform can pass thourgh the auth process.  
+We believe that this type of message is already secure enough for login operations.
 
-
-We believe that kind of message is safe enough for a login action.  
+Please check how it works to get more detailed information.
 
 Check [*How it works*](docs/how-it-works.md) for more details.
 

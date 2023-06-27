@@ -1,9 +1,9 @@
 # How live-stream-comment-auth works?
 English | [简体中文](how-it-works_zh.md)
 ## Main idea
-The main idea of the live-stream-comment-auth is capturing infomation that sent by registered users on live stream platform. The infomation must has a unique user ID(uid) that represents the particular user.  
+`live-stream-comment-auth` principle is to capture the information sent by registered users on the live platform. The information must have a unique user ID (uid) representing a specific user.
 
-For example, Danmu in bilibili live has an excellent data structure for the identity authorzing. It includes bili user's uid and a 20 chars space to convey a message. If a user wants to login to a third party platform, we could sent the user a verification code in 20 chars and the user should send it to a chose bilibili live room as a Danmu. So we shall get a Danmu message via a bili's Danmu WS connection. And the message contains both the buid and the verification code.  
+For example, the danmu in bilibili live has a well-designed authentication data structure. It includes the uid of bili users and a 20-character space to pass messages. If the user wants to log in to a third-party platform, we can send a 20-character verification code to the user, and the user should send it to the selected bilibili live room as danmu. Therefore, we will capture the danmu message through the danmu machine. The message contains buid and the verification code.
 
 ## How user login or signup?  
 1. User request a verification code from the third party platform, we call it "vcode".  
