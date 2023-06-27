@@ -1,4 +1,5 @@
 # How live-stream-comment-auth works?
+English | [简体中文](how-it-works_zh.md)
 ## Main idea
 The main idea of the live-stream-comment-auth is capturing infomation that sent by registered users on live stream platform. The infomation must has a unique user ID(uid) that represents the particular user.  
 

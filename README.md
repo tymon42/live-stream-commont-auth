@@ -1,4 +1,7 @@
 # live-stream-comment-auth  
+
+English | [简体中文](README_zh.md)
+
 I came up with this idea when I wanted to build a Bilibili third party live-interactive tool. And [@Cunoe](https://github.com/CUNOE) and I have already implemented a draft version and it is working well on our tool.  
 Now I am working on open source version which is gonna be more universal. And I will host a services that require payment(but of couse there will be a free tier) as well.
 ## What's this?  
@@ -50,5 +53,3 @@ docker run --platform linux/amd64 --rm -p 8083:8080 -e SWAGGER_JSON_URL=/swagger
 
 ### Youtube
 WIP
-
-## Test
