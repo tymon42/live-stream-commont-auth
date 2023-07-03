@@ -28,6 +28,7 @@ func (l *DanmuAuthVCodeInfoLogic) DanmuAuthVCodeInfo(req *types.VCodeInfoRequest
 
 	danmuAuth, err := l.svcCtx.DanmuAuthDB.FindByClientIDAndBuid(l.ctx, req.ClientID, req.Buid, int(l.svcCtx.Config.DanmuAuth.VCodeExpire))
 	if err != nil {
+		l.Logger.Errorf("find danmu auth failed, err: %v", err)
 		return nil, err
 	}
 
@@ -35,6 +36,8 @@ func (l *DanmuAuthVCodeInfoLogic) DanmuAuthVCodeInfo(req *types.VCodeInfoRequest
 		Count:    danmuAuth.VerifiedCount,
 		ClientID: danmuAuth.ClientID,
 	}
+
+	l.Logger.Infof("DanmuAuthVCodeInfo success, resp: %v", resp)
 
 	return resp, nil
 }

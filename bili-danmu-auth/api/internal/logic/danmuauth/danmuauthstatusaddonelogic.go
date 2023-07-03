@@ -28,21 +28,27 @@ func (l *DanmuAuthStatusAddOneLogic) DanmuAuthStatusAddOne(req *types.AddOneRequ
 	l.Logger.Infof("DanmuAUthStatusAddOne,req: %v", req)
 
 	if req.ApiKey != l.svcCtx.Config.Worker.ApiKey {
+		l.Logger.Errorf("worker api_key error")
 		return nil, errors.New("worker api_key error")
 	}
 
 	da, err := l.svcCtx.DanmuAuthDB.FindByBuidVCode(l.ctx, req.Buid, req.Vcode, l.svcCtx.Config.DanmuAuth.VCodeExpire)
 	if err != nil {
+		l.Logger.Errorf("find danmu auth failed, err: %v", err)
 		return nil, err
 	} else if da == nil && err == nil {
+		l.Logger.Errorf("vcode not found")
 		return nil, errors.New("vcode not found")
 	}
 
 	// add one
 	err = l.svcCtx.DanmuAuthDB.AddVerifiedCount(l.ctx, da)
 	if err != nil {
+		l.Logger.Errorf("add verified count failed, err: %v", err)
 		return nil, err
 	}
+
+	l.Logger.Infof("add one success, verified count: %v", da.VerifiedCount)
 
 	return &types.AddOneResponse{Status: da.VerifiedCount}, nil
 }
