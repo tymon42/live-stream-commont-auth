@@ -28,6 +28,8 @@ func main() {
 	var api string
 	// 端口号
 	var roomid string
+	// uid
+	var uid int
 	// vcode 前缀
 	var vcodePrefix string
 	// vcode 后缀长度
@@ -37,6 +39,7 @@ func main() {
 
 	flag.StringVar(&api, "api", "http://127.0.0.1:8888", "bili-danmu-auth 服务 api,默认为 http://127.0.0.1:8888")
 	flag.StringVar(&roomid, "r", "", "被侦听直播间房间号,默认为空")
+	flag.IntVar(&uid, "u", 0, "被侦听直播间用户uid,默认为0")
 	flag.StringVar(&vcodePrefix, "p", "vc-", "vcode 前缀,默认为 vc-")
 	flag.StringVar(&vcodeSuffixLen, "l", "6", "vcode 后缀长度,默认为6")
 	flag.StringVar(&apiKey, "k", "", "worker 服务 api_key,默认为空")
@@ -46,7 +49,7 @@ func main() {
 
 	log.SetLevel(log.DebugLevel)
 	httpClient := resty.New()
-	c := client.NewClient(roomid)
+	c := client.NewClient(roomid, uid)
 	reg1 := regexp.MustCompile(vcodePrefix + `\S{` + vcodeSuffixLen + `}`)
 	regDev := regexp.MustCompile(`开发者登录或注册-` + `\S{11}`)
 	if reg1 == nil {
@@ -56,6 +59,7 @@ func main() {
 	//弹幕事件
 	c.OnDanmaku(func(danmaku *message.Danmaku) {
 		if !regDev.MatchString(danmaku.Content) && !reg1.MatchString(danmaku.Content) {
+			fmt.Printf("[%s] %s\n", danmaku.Sender.Uname, danmaku.Content)
 			return
 		}
 

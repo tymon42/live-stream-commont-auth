@@ -72,3 +72,5 @@ require (
 	modernc.org/memory v1.5.0 // indirect
 	modernc.org/sqlite v1.21.1 // indirect
 )
+
+replace github.com/Akegarasu/blivedm-go => github.com/tymon42/blivedm-go v0.0.1
