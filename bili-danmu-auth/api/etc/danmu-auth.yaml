@@ -7,7 +7,8 @@ DanmuAuth:
   VCodeExpire: 300
   DevloperVCodePrefix: 开发者登录或注册-
   NormalUserVCodePrefix: vc-
-  InitialBalance: 100
+  NormalUserVCodeLength: 10
+  InitialBalance: 500
 
 Auth:
   # AccessSecret: 用于生成token的密钥

@@ -101,7 +101,7 @@ func (l *DanmuAuthApplyNewVCodeLogic) DanmuAuthApplyNewVCode(req *types.ApplyNew
 			return nil, err
 		} else if danmu_auth_log == nil && err == nil { // not found, create new
 			l.Logger.Infof("danmu auth log not found, create new")
-			new_vcode = vcode.GenRandomBiliVCode(req.ClientID, req.Buid, l.svcCtx.Config.DanmuAuth.NormalUserVCodePrefix, 10)
+			new_vcode = vcode.GenRandomBiliVCode(req.ClientID, req.Buid, l.svcCtx.Config.DanmuAuth.NormalUserVCodePrefix, uint(l.svcCtx.Config.DanmuAuth.NormalUserVCodeLength))
 			l.svcCtx.DanmuAuthDB.Save(l.ctx, &core.DanmuAuth{Buid: req.Buid, ClientID: req.ClientID, VCode: new_vcode})
 		} else {
 			new_vcode = danmu_auth_log.VCode

@@ -2,6 +2,7 @@ package danmuauth
 
 import (
 	"context"
+	"errors"
 
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/svc"
 	"github.com/tymon42/live-stream-commont-auth/bili-danmu-auth/api/internal/types"
@@ -30,6 +31,9 @@ func (l *DanmuAuthVCodeInfoLogic) DanmuAuthVCodeInfo(req *types.VCodeInfoRequest
 	if err != nil {
 		l.Logger.Errorf("find danmu auth failed, err: %v", err)
 		return nil, err
+	} else if danmuAuth == nil && err == nil {
+		l.Logger.Errorf("danmu auth not found")
+		return nil, errors.New("danmu auth not found")
 	}
 
 	resp = &types.VCodeInfoResponse{

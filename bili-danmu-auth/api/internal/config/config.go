@@ -8,6 +8,7 @@ type Config struct {
 		VCodeExpire           int // in seconds
 		DevloperVCodePrefix   string
 		NormalUserVCodePrefix string
+		NormalUserVCodeLength int
 		InitialBalance        int // the initial balance for new devloper
 	}
 	Auth struct {
