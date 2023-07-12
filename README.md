@@ -2,6 +2,8 @@
 
 English | [简体中文](README_zh.md)
 
+[中文介绍文章](https://www.bilibili.com/read/cv19545136)
+
 Originally, I wanted to write a third-party live interactive tool for Bilibili, but was troubled by identity verification and login design, so I came up with this idea. Me and [@Cunoe](https://github.com/CUNOE) have already implemented a basic version, which is currently working properly. Now I am developing a more universal open source version and will provide paid services (of course, there will also be a free trial period).
 ## What's this?  
 This is a designed authorization solution for third-party applications on live streaming platforms (such as Bilibili or YouTube). You can easily use RESTful API services to authorize and generate JWT tokens for your own applications (or barrage games). Only users registered on specific live streaming platforms can pass the authorization process.
