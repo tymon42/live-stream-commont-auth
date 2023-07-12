@@ -1,6 +1,8 @@
 # live-stream-comment-auth 直播弹幕身份认证登录系统
 [English](README.md) | 简体中文
 
+[中文介绍文章](https://www.bilibili.com/read/cv19545136)
+
 当初我想写一个 B站 的第三方直播互动工具，苦于身份认证和登录设计，于是有了这个想法。我和[@Cunoe](https://github.com/CUNOE)已经实现了一个基础版本, 目前工作很正常. 现在我正在开发一个更通用的开源版本, 并将提供需要付费的服务(当然也会有免费的试用范围).
 
 # live-stream-comment-auth 是什么？
