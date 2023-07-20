@@ -13,3 +13,6 @@ makefile
 # fly.io #
 fly.toml
 deploy.md
+
+# node #
+node_modules
