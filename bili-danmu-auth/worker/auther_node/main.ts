@@ -10,7 +10,8 @@ const ApiKey = args['apiKey']
 
 const handler: MsgHandler = {
   onIncomeDanmu: (msg: { id: any; body: DanmuMsg }) => {
-    // console.log(msg.id, msg.body)
+    console.log(`[new msg]`);
+    console.log(`[danmu] ${msg.body.content}`)
     // 定义两个正则表达式规则
     // 匹配 vc- 开头的字符串, 且后面跟着10位数字或字母
     const vcReg = /^vc-\S{10}$/
@@ -24,14 +25,13 @@ const handler: MsgHandler = {
       const uid = msg.body.user.uid
 
       const url = `${baseUrl}/api/v1/vcode/${vcode}`
-      console.log(`[url] ${url}`)
+      // console.log(`[url] ${url}`)
 
       const body = {
         buid: uid,
         api_key: ApiKey,
       }
-      console.log(`[body] ${JSON.stringify(body)}`);
-      
+      // console.log(`[body] ${JSON.stringify(body)}`);
       
       // 向 /api/v1/vcode/{vcode} 发送 POST 请求, Body 为 JSON 格式的字符串, 内容为 { "buid": msg.body.uid, "api_key": ApiKey }, vcode = msg.body.content
       fetch(url, {
@@ -45,8 +45,19 @@ const handler: MsgHandler = {
       })
     }
   },
+  onOpen: () => {
+    console.log('connected')
+  },
+  onStartListen: () => {
+    console.log('start listen')
+  },
+  onError: (err: any) => {
+    console.log(`error: ${err}`)
+  }
 }
 
 const instance = startListen(roomid, handler)
+console.log(`start listen room ${instance.roomId}`);
+
 
 // instance.close()

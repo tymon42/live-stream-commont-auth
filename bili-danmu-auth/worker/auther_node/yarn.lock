@@ -95,12 +95,12 @@ bilibili-live-ws@^6.3.1:
     isomorphic-ws "^5.0.0"
     ws "^8.2.3"
 
-blive-message-listener@^0.4.6:
-  version "0.4.6"
-  resolved "https://registry.npmmirror.com/blive-message-listener/-/blive-message-listener-0.4.6.tgz#37084e7875b746160db1da4b6bd2a02c48388deb"
-  integrity sha512-uPHyoodalgq+Lj/3kPBZaxMjj6IrgjZYuqPH9I1g8Y6ixchKN8YaDvMlA7glhreuRaAUx3gWGuQak7mbYjhIJw==
+blive-message-listener@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.npmmirror.com/blive-message-listener/-/blive-message-listener-0.4.7.tgz#cd7658a4043e32f54ee655779ea39221ef504869"
+  integrity sha512-7+qFFm5Gb6wcnGA1XHbrMrnZ/0Yt1Kj4irllMhAeD0SWv7+HUOGcEX5GyQ8eefFSnnEeASb4mRtnE8ZZysKIBA==
   dependencies:
-    tiny-bilibili-ws "^0.1.8"
+    tiny-bilibili-ws "^0.1.9"
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -175,10 +175,10 @@ proxy-from-env@^1.1.0:
   resolved "https://registry.npmmirror.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
-tiny-bilibili-ws@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.npmmirror.com/tiny-bilibili-ws/-/tiny-bilibili-ws-0.1.8.tgz#558f51541d6dc79477cbd89aea28a19b15d3861a"
-  integrity sha512-Uo+uZYo7L99g7PQ1N92zXXWIffyy72ls1LW7rPIYorj5aWX3RrHV2iJIRTIs5O1oQgV/u2G8ZZd9YRwM3inBDw==
+tiny-bilibili-ws@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.npmmirror.com/tiny-bilibili-ws/-/tiny-bilibili-ws-0.1.9.tgz#5fe9120f0e05ec2413c3ca50f6fff40096c5dc04"
+  integrity sha512-aL2/txMnHSC7JnBJCv4zg+bJzX7vHRVVpU3VTVaSCnzgRibJiCijGNvnBoFZYiy0lJ/XVLK6rIR9MIHgIPStYQ==
   dependencies:
     pako "^2.1.0"
     ws "^8.13.0"

@@ -5,7 +5,7 @@
   "devDependencies": {
     "@types/node": "^20.4.2",
     "axios": "^1.4.0",
-    "blive-message-listener": "^0.4.6",
+    "blive-message-listener": "^0.4.7",
     "minimist": "^1.2.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
