@@ -48,6 +48,10 @@ const handler = {
         console.log(`error: ${err}`);
     }
 };
-const instance = (0, blive_message_listener_1.startListen)(roomid, handler);
+const instance = (0, blive_message_listener_1.startListen)(roomid, handler, {
+    ws: {
+        host: 'wss://tx-bj-live-comet-03.chat.bilibili.com',
+    }
+});
 console.log(`start listen room ${instance.roomId}`);
 // instance.close()

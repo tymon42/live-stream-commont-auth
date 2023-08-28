@@ -56,7 +56,11 @@ const handler: MsgHandler = {
   }
 }
 
-const instance = startListen(roomid, handler)
+const instance = startListen(roomid, handler, {
+  ws: {
+    host: 'wss://tx-bj-live-comet-03.chat.bilibili.com',
+  }
+})
 console.log(`start listen room ${instance.roomId}`);
 
 
