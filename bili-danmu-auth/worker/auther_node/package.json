@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "bilibili-live-ws": "^6.3.1"
+    "bilibili-live-ws": "^6.3.1",
+    "tiny-bilibili-ws": "^0.1.9"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
