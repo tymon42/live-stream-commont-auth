@@ -14,8 +14,13 @@ cd bili-danmu-auth/worker/auther_node
 # 安装依赖
 yarn
 
-# 编译
+# TS 版本
 npx tsc
 
 node main.js --roomid=你的房间号 --apiKey=你的apiKey
+```
+
+# mjs 版本(推荐) ()
+```
+node main.mjs --roomid=你的房间号 --apiKey=你的apiKey
 ```
