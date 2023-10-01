@@ -22,5 +22,5 @@ node main.js --roomid=你的房间号 --apiKey=你的apiKey
 
 # mjs 版本(推荐) ()
 ```
-node main.mjs --roomid=你的房间号 --apiKey=你的apiKey
+node main.mjs --roomid=你的房间号 --uid=你的uid --key=你的key(上面api获取到的token) --apiKey=你的apiKey
 ```
